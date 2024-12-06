@@ -1,5 +1,6 @@
 package com.skilldistillery.filmquery.app;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
@@ -22,6 +23,9 @@ public class FilmQueryApp {
 		System.out.println(film);
 		Actor actor = db.findActorById(1);
 		System.out.println(actor);
+		List<Actor> actors = db.findActorsByFilmId(1);
+		System.out.println(actors);
+		System.out.println(film.getActors());
 	}
 
 	private void launch() {
@@ -33,7 +37,11 @@ public class FilmQueryApp {
 	}
 
 	private void startUserInterface(Scanner input) {
-
+		//TODO print menu
+		
+		//TODO get choice
+		//TODO act on choice
+		//TODO repeat till quit
 	}
 
 }

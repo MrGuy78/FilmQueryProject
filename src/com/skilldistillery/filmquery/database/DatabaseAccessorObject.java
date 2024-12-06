@@ -42,6 +42,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setReplCost(rs.getDouble("replacement_cost"));
 				film.setFilmRating(rs.getString("rating"));
 				film.setSpecFeat(rs.getString("special_features"));
+				film.setActors(findActorsByFilmId(filmId));
 			}
 			rs.close();
 			stmt.close();
@@ -86,17 +87,25 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Actor> findActorsByFilmId(int filmId) {
 		List<Actor> actors = new ArrayList<>();
 		try {
-			Connection conn = DriverManager.getConnection(URL);
+			Connection conn = DriverManager.getConnection(URL, user, pass);
 
-			String query = "SELECT first_name, last_name FROM actor "
-					+ " JOIN film_actor ON actor.id = film_actor.actor.id "
+			String query = "SELECT first_name, last_name, id FROM actor "
+					+ " JOIN film_actor ON actor.id = film_actor.actor_id "
 					+ " WHERE film_actor.film_id = ?";
+			
 			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, filmId);
 
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
+				Actor actor = new Actor();
+				actor.setActorId(rs.getInt("id"));
+				actor.setFirstName(rs.getString("first_name"));
+				actor.setLastName(rs.getString("last_name"));
 				
+				actors.add(actor);
+			
 			}
 			rs.close();
 			stmt.close();
