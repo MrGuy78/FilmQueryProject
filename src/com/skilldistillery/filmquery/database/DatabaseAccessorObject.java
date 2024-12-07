@@ -119,6 +119,26 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	
 	@Override
 	public List<Film> findFilmByKeyword(String filmKeyWord) {
+		try {
+			Connection conn = DriverManager.getConnection(URL, user, pass);
+			
+			String query = "";
+			
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt();
+			
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
