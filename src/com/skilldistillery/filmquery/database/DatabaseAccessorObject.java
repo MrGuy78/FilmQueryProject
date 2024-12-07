@@ -119,17 +119,34 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	
 	@Override
 	public List<Film> findFilmByKeyword(String filmKeyWord) {
+		List<Film> films = new ArrayList<>();
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			
-			String query = "";
+			String query = "SELECT film FROM film WHERE title LIKE ? OR description LIKE ?";
+			filmKeyWord = "%" + filmKeyWord + "%";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setInt();
+			stmt.setString(1, filmKeyWord);
+			stmt.setString(2, filmKeyWord);
 			
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
+				Film film = new Film();
+				film.setFilmId(rs.getInt("id"));
+				film.setFilmTitle(rs.getString("title"));
+				film.setFilmDesc(rs.getString("description"));
+				film.setReleaseYear(rs.getInt("release_year"));
+				film.setLangId(rs.getInt("language_id"));
+				film.setRentRate(rs.getInt("rental_Rate"));
+				film.setFilmLength(rs.getInt("length"));
+				film.setReplCost(rs.getDouble("replacement_cost"));
+				film.setFilmRating(rs.getString("rating"));
+				film.setSpecFeat(rs.getString("special_features"));
+				film.setActors(findActorsByFilmId(rs.getInt("id")));
+				
+				films.add(film);
 				
 			}
 			rs.close();

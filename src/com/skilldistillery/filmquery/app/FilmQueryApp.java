@@ -35,52 +35,65 @@ public class FilmQueryApp {
 	}
 
 	private void startUserInterface(Scanner input) {
-		//TODO print menu
-		System.out.println("******** Film Inventory ********");
-		System.out.println("1. Find films by ID: ");
-		System.out.println("2. Find films by keyword: ");
-		System.out.println("3. Exit");
-		
-		String choice = input.nextLine();
-		
+		boolean keepGoing = true;
+		while(keepGoing) {
+			
+			printMenu();
+			String userChoice = getUserChoice();
+			keepGoing = userInterfaceChoice(userChoice);
+		}
 	}
-		
-	private void userInterfaceChoice(String choice) {
+
+	private boolean userInterfaceChoice(String choice) {
 		switch (choice) {
 		case "1":
 			System.out.println("Enter the film's ID: ");
 			int filmId = input.nextInt();
 			Film film = db.findFilmById(filmId);
-			
-			if(film != null) {
+
+			if (film != null) {
 				System.out.println(film.getFilmTitle());
 				System.out.println(film.getReleaseYear());
 				System.out.println(film.getFilmRating());
 				System.out.println(film.getFilmDesc());
 				System.out.println();
-			}
-			else {
+			} else {
 				System.out.println("No such film exists. Perhaps begin production yourself..?");
 			}
+			break;
+			
 		case "2":
 			System.out.println("Enter the film's keyword: ");
 			String filmKeyword = input.next();
 			db.findFilmByKeyword(filmKeyword);
-			
-			
-		case "3":
-			System.out.println("Thanks for caring about film! Tiktok sucks! ");
 			break;
 			
+		case "3":
+			System.out.println("Thanks for caring about film! Tiktok sucks!");
+			return false;
+				
 		default: {
 			System.out.println("Invalid entry. Please try again. ");
 			break;
 		}
 		}
+		return true;
 	}
-		//TODO get choice
-		
-		//TODO act on choice
-		//TODO repeat till quit
 
+	private void printMenu() {
+		System.out.println("******** Film Inventory ********");
+		System.out.println("1. Find films by ID: ");
+		System.out.println("2. Find films by keyword: ");
+		System.out.println("3. Exit");
+
+	}
+	private String getUserChoice() {
+		String choice = input.nextLine();
+		return choice;
+	}
+	
+	
 }
+
+// TODO act on choice
+// TODO repeat till quit
