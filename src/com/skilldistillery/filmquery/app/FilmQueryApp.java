@@ -105,5 +105,11 @@ public class FilmQueryApp {
 		System.out.println(film.getFilmDesc());
 		System.out.println(film.getLanguageName());
 		System.out.println();
+		List<Actor> actors = film.getActors();
+		System.out.println("Cast: ");
+		for (Actor actor : actors) {
+			System.out.println(actor.getFirstName() + " " + actor.getLastName());
+		}
+		System.out.println();
 	}
 }

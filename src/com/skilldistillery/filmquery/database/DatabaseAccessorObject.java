@@ -23,7 +23,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 
-			String query = "SELECT * FROM film JOIN language ON film.language_id = language.id WHERE film.id = ?";
+			String query = "SELECT * FROM film "
+					+ " JOIN language ON film.language_id = language.id"
+					+ " WHERE film.id = ?";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, filmId);
