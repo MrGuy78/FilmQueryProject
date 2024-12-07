@@ -57,15 +57,25 @@ public class FilmQueryApp {
 				System.out.println(film.getReleaseYear());
 				System.out.println(film.getFilmRating());
 				System.out.println(film.getFilmDesc());
+				System.out.println();
 			}
 			else {
 				System.out.println("No such film exists. Perhaps begin production yourself..?");
 			}
 		case "2":
 			System.out.println("Enter the film's keyword: ");
+			String filmKeyword = input.next();
+			db.findFilmByKeyword(filmKeyword);
+			
+			
 		case "3":
 			System.out.println("Thanks for caring about film! Tiktok sucks! ");
 			break;
+			
+		default: {
+			System.out.println("Invalid entry. Please try again. ");
+			break;
+		}
 		}
 	}
 		//TODO get choice
