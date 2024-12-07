@@ -9,6 +9,7 @@ public class Film {
 	private String filmDesc;
 	private int releaseYear;
 	private int langId;
+	private String languageName;
 	private int rentDur;
 	private int rentRate;
 	private int filmLength;
@@ -103,6 +104,18 @@ public class Film {
 	public void setSpecFeat(String specFeat) {
 		this.specFeat = specFeat;
 	}
+	public List<Actor> getActors() {
+		return actors;
+	}
+	public void setActors(List<Actor> actors) {
+		this.actors = actors;
+	}
+	public String getLanguageName() {
+		return languageName;
+	}
+	public void setLanguageName(String languageName) {
+		this.languageName = languageName;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -176,13 +189,6 @@ public class Film {
 				+ specFeat + "]";
 	}
 
-	public List<Actor> getActors() {
-		return actors;
-	}
 
-	public void setActors(List<Actor> actors) {
-		this.actors = actors;
-	}
-	
 	
 }

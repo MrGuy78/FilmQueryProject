@@ -36,8 +36,8 @@ public class FilmQueryApp {
 
 	private void startUserInterface(Scanner input) {
 		boolean keepGoing = true;
-		while(keepGoing) {
-			
+		while (keepGoing) {
+
 			printMenu();
 			String userChoice = getUserChoice();
 			keepGoing = userInterfaceChoice(userChoice);
@@ -49,29 +49,35 @@ public class FilmQueryApp {
 		case "1":
 			System.out.println("Enter the film's ID: ");
 			int filmId = input.nextInt();
+			input.nextLine();
 			Film film = db.findFilmById(filmId);
 
 			if (film != null) {
-				System.out.println(film.getFilmTitle());
-				System.out.println(film.getReleaseYear());
-				System.out.println(film.getFilmRating());
-				System.out.println(film.getFilmDesc());
-				System.out.println();
+				printFilm(film);
 			} else {
 				System.out.println("No such film exists. Perhaps begin production yourself..?");
+				System.out.println();
 			}
 			break;
-			
+
 		case "2":
 			System.out.println("Enter the film's keyword: ");
-			String filmKeyword = input.next();
-			db.findFilmByKeyword(filmKeyword);
+			String filmKeyword = input.nextLine();
+			List<Film> foundFilms = db.findFilmByKeyword(filmKeyword);
+			if (!foundFilms.isEmpty()) {
+				for (Film foundFilm : foundFilms) {
+					printFilm(foundFilm);
+				}
+			} else {
+				System.out.println("No films found for " + filmKeyword);
+			}
+			System.out.println();
 			break;
-			
+
 		case "3":
 			System.out.println("Thanks for caring about film! Tiktok sucks!");
 			return false;
-				
+
 		default: {
 			System.out.println("Invalid entry. Please try again. ");
 			break;
@@ -85,15 +91,19 @@ public class FilmQueryApp {
 		System.out.println("1. Find films by ID: ");
 		System.out.println("2. Find films by keyword: ");
 		System.out.println("3. Exit");
-
 	}
+
 	private String getUserChoice() {
 		String choice = input.nextLine();
 		return choice;
 	}
-	
-	
-}
 
-// TODO act on choice
-// TODO repeat till quit
+	private void printFilm(Film film) {
+		System.out.println(film.getFilmTitle());
+		System.out.println(film.getReleaseYear());
+		System.out.println(film.getFilmRating());
+		System.out.println(film.getFilmDesc());
+		System.out.println(film.getLanguageName());
+		System.out.println();
+	}
+}

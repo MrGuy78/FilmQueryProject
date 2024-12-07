@@ -23,7 +23,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 
-			String query = "SELECT * FROM film WHERE id = ?";
+			String query = "SELECT * FROM film JOIN language ON film.language_id = language.id WHERE film.id = ?";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, filmId);
@@ -43,6 +43,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setFilmRating(rs.getString("rating"));
 				film.setSpecFeat(rs.getString("special_features"));
 				film.setActors(findActorsByFilmId(filmId));
+				film.setLanguageName(rs.getString("name"));
+
 			}
 			rs.close();
 			stmt.close();
@@ -123,7 +125,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
 			
-			String query = "SELECT film FROM film WHERE title LIKE ? OR description LIKE ?";
+			String query = "SELECT * FROM film JOIN language ON film.language_id = language.id WHERE title LIKE ? OR description LIKE ?";
 			filmKeyWord = "%" + filmKeyWord + "%";
 			
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -145,6 +147,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setFilmRating(rs.getString("rating"));
 				film.setSpecFeat(rs.getString("special_features"));
 				film.setActors(findActorsByFilmId(rs.getInt("id")));
+				film.setLanguageName(rs.getString("name"));
 				
 				films.add(film);
 				
@@ -156,7 +159,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return films;
 	}
 	
 	static {
